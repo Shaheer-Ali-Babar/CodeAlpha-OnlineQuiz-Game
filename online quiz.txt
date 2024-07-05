@@ -1,0 +1,68 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+struct Question {
+    string question;
+    vector<string> options;
+    char correctOption;
+};
+
+struct User {
+    string username;
+    int score;
+};
+
+void registerUser(User& user) {
+    cout << "Enter username: ";
+    cin >> user.username;
+    user.score = 0;
+}
+
+void displayQuestions(const vector<Question>& questions, User& user) {
+    char answer;
+    for (const auto& q : questions) {
+        cout << q.question << endl;
+        for (size_t i = 0; i < q.options.size(); ++i) {
+            cout << char('a' + i) << ") " << q.options[i] << endl;
+        }
+        cout << "Your answer (a, b, c, d): ";
+        cin >> answer;
+        if (answer == q.correctOption) {
+            user.score++;
+        }
+    }
+}
+
+void displayResults(const vector<Question>& questions, const User& user) {
+    cout << "\nQuiz Results for " << user.username << endl;
+    cout << "Score: " << user.score << "/" << questions.size() << endl;
+    cout << "Correct Answers:" << endl;
+    for (const auto& q : questions) {
+        cout << q.question << " Correct answer: " << q.correctOption << endl;
+    }
+}
+
+int main() {
+    vector<Question> questions = {
+        {"\nWhich of the following is used to define a constant in C++?", {"#define", "const", "constant", "final"}, 'b'},
+        {"\nWhat is the size of int in C++?", {"2 bytes", "4 bytes", "8 bytes", "Depends on compiler"}, 'd'},
+        {"\nWhich of the following is a correct identifier in C++?", {"1variable", "_variable", "variable#", "var iable"}, 'b'},
+        {"\nWhich operator is used to access a member of a structure through a pointer?", {"->", ".", "::", "=>"}, 'a'},
+        {"\nWhat does STL stand for?", {"Standard Type Library", "Simple Template Library", "Standard Template Library", "System Template Library"}, 'c'},
+        {"\nWhat is the use of the 'new' keyword in C++?", {"To allocate memory", "To create a new file", "To define a new class", "To declare a new variable"}, 'a'},
+        {"\nWhich of the following is not a fundamental data type in C++?", {"int", "float", "bool", "string"}, 'd'},
+        {"\nWhat is the correct way to declare a pointer in C++?", {"int *ptr;", "int ptr;", "int &ptr;", "int ptr[];"}, 'a'},
+        {"\nWhich of the following is not a feature of OOP in C++?", {"Encapsulation", "Inheritance", "Polymorphism", "Virtualization"}, 'd'},
+        {"\nWhat is the output of the following code: int x = 10; cout << x++;?", {"10", "11", "Compiler Error", "Garbage Value"}, 'a'}
+    };
+
+    User user;
+    registerUser(user);
+    displayQuestions(questions, user);
+    displayResults(questions, user);
+
+    return 0;
+}
